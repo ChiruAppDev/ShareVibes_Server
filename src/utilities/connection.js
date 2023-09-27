@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// const url ="==mongodb+srv://chiruvaradani123:chiru123@filmopediadb.jdaa3ea.mongodb.net/Filmopedia"
+// const url ="mongodb+srv://chiruvaradani123:chiru123@filmopediadb.jdaa3ea.mongodb.net/Filmopedia"
 const url = "mongodb+srv://chiruvaradani123:chiruvaradani123@sharevibes.fx0uvsv.mongodb.net/ShareVibes"
 
 const usersSchema = Schema({
@@ -20,6 +20,17 @@ const usersSchema = Schema({
     sentRequest:{type: Array}
 }, { collection: "users", timestamps: true })
 
+const postsSchema = Schema({
+    description:{type:String},
+    imagePath:{type:String},
+    imageUriPath:{type:String},
+    postedOn:{type: String},
+    location:{type: String},
+    postedBy:{type:String},
+    likes:{type:Array},
+    comments:{type:Array},
+}, { collection: "posts", timestamps: true })
+
 
 
 let connection = {}
@@ -31,6 +42,20 @@ connection.UserCollection = async () => {
         console.log("Connection to DB success");
         const database = await mongoose.connect(url, { useNewUrlParser: true });
         return database.model('users', usersSchema);
+    } catch (error) {
+        let err = new Error("Could not connect to the database");
+        err.status = 500;
+        throw err;
+    }
+}
+
+//Returns model object of "posts" collection
+connection.PostsCollection = async () => {
+    //Establish connection and return model as promise
+    try {
+        console.log("Connection to DB success");
+        const database = await mongoose.connect(url, { useNewUrlParser: true });
+        return database.model('posts', postsSchema);
     } catch (error) {
         let err = new Error("Could not connect to the database");
         err.status = 500;

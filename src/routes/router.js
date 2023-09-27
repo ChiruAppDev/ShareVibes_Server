@@ -99,7 +99,7 @@ router.get('/UserData', VerifyToken, async (req, res) => {
   }
 });
 
-
+//to get the users to display
 router.get('/AllUserData', async (req, res) => {
   try {
     const data = await dbModel.UserCollection();
@@ -115,6 +115,19 @@ router.get('/AllUserData', async (req, res) => {
   }
 });
 
-
-
+//to add a new Post from a user
+router.post('/NewPost',VerifyToken,async(req,res,next)=>{
+  try{
+    const postData = req.body
+    const postDB = await dbModel.PostsCollection()
+    const NewPost = await postDB.create(postData)
+    if(NewPost){
+      res.send({ "Message": "Added Successfully" })
+    }
+  }catch(error){
+    console.error('Error connecting to the database:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+})
+      
 module.exports = router;
