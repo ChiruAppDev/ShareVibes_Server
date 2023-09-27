@@ -2,7 +2,7 @@ const { Schema } = require('mongoose');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// const url ="mongodb+srv://chiruvaradani123:chiru123@filmopediadb.jdaa3ea.mongodb.net/Filmopedia"
+// const url ="==mongodb+srv://chiruvaradani123:chiru123@filmopediadb.jdaa3ea.mongodb.net/Filmopedia"
 const url = "mongodb+srv://chiruvaradani123:chiruvaradani123@sharevibes.fx0uvsv.mongodb.net/ShareVibes"
 
 const usersSchema = Schema({
