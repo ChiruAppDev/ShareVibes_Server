@@ -137,13 +137,13 @@ router.post('/NewPost', VerifyToken, async (req, res, next) => {
 })
 
 
-//to retrive all the posts
+//to retrieve all the posts
 router.get('/allPosts', VerifyToken, async (req, res, next) => {
   try {
     const allPosts = await dbModel.PostsCollection()
     const sendPosts = await allPosts.find()
     if (sendPosts) {
-      res.send(userData);
+      res.send(sendPosts);
     } else {
       res.status(404).send('User not found');
     }
