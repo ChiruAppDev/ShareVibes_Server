@@ -1,0 +1,22 @@
+{
+  "name": "filmopedia_backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd src && nodemon app"
+  },
+  "author": "ETA",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.15.5",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.3.14"
+  },
+  "devDependencies": {
+    "@types/multer": "^1.4.7"
+  }
+}
