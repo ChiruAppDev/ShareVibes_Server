@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cd src && nodemon app"
+    "start": "cd src && node app"
   },
   "author": "ETA",
   "license": "MIT",
