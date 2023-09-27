@@ -21,6 +21,7 @@ const usersSchema = Schema({
 }, { collection: "users", timestamps: true })
 
 const postsSchema = Schema({
+    postId:{type:String},
     description:{type:String},
     imagePath:{type:String},
     imageUriPath:{type:String},
