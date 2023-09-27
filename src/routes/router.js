@@ -136,7 +136,24 @@ router.post('/NewPost', VerifyToken, async (req, res, next) => {
   }
 })
 
+//getting user by userName
+router.get('/UserByName',VerifyToken, async (req, res) => {
+try {
+  console.log("In Try block");
+  const data = await dbModel.UserCollection();
+  const userData = await data.find({userName:req.query.userName}, { _id: 0, userName: 1, posts: 1, friendsListArray: 1, profileImage: 1, email: 1, dateOfBirth: 1 }); // Fetch data of the user using the decoded user ID
+  if (userData) {
+    res.send(userData);
+  } else {
+    res.status(404).send('User not found');
+  }
+} catch (error) {
+  console.error('Error connecting to the database:', error.message);
+  res.status(500).send('Internal Server Error');
+}
+})
 
+//Posts Api's
 //to retrieve all the posts
 router.get('/allPosts', VerifyToken, async (req, res, next) => {
   try {
