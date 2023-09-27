@@ -15,7 +15,7 @@ router.post('/generateToken', async (req, res, next) => {
     const data = await dbModel.UserCollection();
     const udata = await data.findOne({ userName: Credentials.userName });
 
-   
+
     if (udata) {
 
       const passwordData = bcrypt.compareSync(Credentials.password, udata.password);
@@ -30,7 +30,7 @@ router.post('/generateToken', async (req, res, next) => {
         throw new Error('Invalid Password');
       }
     } else {
-      res.send({"Message":'User Not Found'})
+      res.send({ "Message": 'User Not Found' })
 
     }
   } catch (error) {
@@ -103,7 +103,7 @@ router.get('/UserData', VerifyToken, async (req, res) => {
 router.get('/AllUserData', async (req, res) => {
   try {
     const data = await dbModel.UserCollection();
-    const userData = await data.find({},{_id:0,userName:1,posts:1,friendsListArray:1,profileImage:1,email:1,dateOfBirth:1}); // Fetch data of the user using the decoded user ID
+    const userData = await data.find({}, { _id: 0, userName: 1, posts: 1, friendsListArray: 1, profileImage: 1, email: 1, dateOfBirth: 1 }); // Fetch data of the user using the decoded user ID
     if (userData) {
       res.send(userData);
     } else {
@@ -116,24 +116,42 @@ router.get('/AllUserData', async (req, res) => {
 });
 
 //to add a new Post from a user
-router.post('/NewPost',VerifyToken,async(req,res,next)=>{
-  try{
+router.post('/NewPost', VerifyToken, async (req, res, next) => {
+  try {
     const postData = req.body
     const userName = req.body.postedBy
     const postDB = await dbModel.PostsCollection()
     const NewPost = await postDB.create(postData)
     const addPostInUser = await dbModel.UserCollection()
-    const addPost= await addPostInUser.updateMany({userName:userName},{
-      $push:{posts:req.body.postId}
+    const addPost = await addPostInUser.updateMany({ userName: userName }, {
+      $push: { posts: req.body.postId }
     })
 
-    if(NewPost){
+    if (NewPost) {
       res.send({ "Message": "Added Successfully" })
     }
-  }catch(error){
+  } catch (error) {
     console.error('Error connecting to the database:', error.message);
     res.status(500).send('Internal Server Error');
   }
 })
-      
+
+
+//to retrive all the posts
+router.get('/allPosts', VerifyToken, async (req, res, next) => {
+  try {
+    const allPosts = await dbModel.PostsCollection()
+    const sendPosts = await allPosts.find()
+    if (sendPosts) {
+      res.send(userData);
+    } else {
+      res.status(404).send('User not found');
+    }
+  }
+  catch (error) {
+    console.error('Error connecting to the database:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 module.exports = router;
