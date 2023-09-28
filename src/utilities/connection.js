@@ -27,7 +27,7 @@ const postsSchema = Schema({
     imageUriPath:{type:String},
     postedOn:{type: String},
     location:{type: String},
-    postedBy:{type:String},
+    postedBy:{type:Object},
     likes:{type:Array},
     comments:{type:Array},
 }, { collection: "posts", timestamps: true })
