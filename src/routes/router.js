@@ -171,4 +171,42 @@ router.get('/allPosts', VerifyToken, async (req, res, next) => {
   }
 })
 
+router.post('/postLikes',VerifyToken,async(req,res,err)=>{
+  console.log(req.body);
+  const bodyData={
+    likedBy:req.body.userName,
+    profileImage:req.body.profileImage
+  }
+  console.log("In post like");
+  const getPosts = await dbModel.PostsCollection()
+  const FindPostByID = await getPosts.find({postId:req.body.postId})
+  console.log(FindPostByID);
+  const likesArray = []
+  if(req.body.postId && FindPostByID){
+    const data = await getPosts.find({postId:req.body.postId},{likes:1})
+    console.log("data ===============",data[0].likes);
+    data[0].likes.map((res)=>{
+      console.log("==========================",res.likedBy);
+      likesArray.push(res.likedBy)
+    })
+    if(likesArray.includes(req.body.userName)){
+      console.log("User Already Liked");
+    }else{
+      const addLikes = await getPosts.updateMany({postId:req.body.postId},{
+        $push:{likes:bodyData}
+      }) 
+      if(addLikes){
+        const sendData = await getPosts.find({postId:req.body.postId})
+        res.status(200).send(sendData)
+      }
+    }
+  }
+  else{
+    console.log('Post Id Not Found');
+    res.status(404).send({"message":"Post Id Not Found"})
+
+  }
+})
+
+
 module.exports = router;
