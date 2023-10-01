@@ -119,7 +119,7 @@ router.get('/AllUserData', async (req, res) => {
 router.post('/NewPost', VerifyToken, async (req, res, next) => {
   try {
     const postData = req.body
-    const userName = req.body.postedBy
+    const userName = req.body.postedBy.userName
     const postDB = await dbModel.PostsCollection()
     const NewPost = await postDB.create(postData)
     const addPostInUser = await dbModel.UserCollection()
