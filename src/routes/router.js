@@ -196,7 +196,7 @@ router.post('/postLikes',VerifyToken,async(req,res,err)=>{
         $push:{likes:bodyData}
       }) 
       if(addLikes){
-        const sendData = await getPosts.find({postId:req.body.postId})
+        const sendData = await getPosts.find({})
         res.status(200).send(sendData)
       }
     }
