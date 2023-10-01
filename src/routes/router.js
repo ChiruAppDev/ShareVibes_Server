@@ -190,7 +190,7 @@ router.post('/postLikes',VerifyToken,async(req,res,err)=>{
       likesArray.push(res.likedBy)
     })
     if(likesArray.includes(req.body.userName)){
-      console.log("User Already Liked");
+      res.status(400).send("User Already Liked");
     }else{
       const addLikes = await getPosts.updateMany({postId:req.body.postId},{
         $push:{likes:bodyData}
